@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-group = 'org.skydom.chosen.server'
-version = '1.0-SNAPSHOT'
+group = 'com.rserene.chosen.server'
+version = '1.0-Beta'
 
 repositories {
     mavenCentral()
@@ -18,10 +18,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 25
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion

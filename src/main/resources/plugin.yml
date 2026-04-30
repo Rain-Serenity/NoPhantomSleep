@@ -1,11 +1,5 @@
 name: NoPhantomSleep
 version: '${version}'
-main: org.skydom.chosen.server.nophantomsleep.NoPhantomSleep
-api-version: 1.20
+main: com.rserene.chosen.server.nophantomsleep.NoPhantomSleep
+api-version: 26.1.2
 authors: [Chosen_1st]
-commands:
-  clearsleepplayer:
-    description: Clear sleeping players
-    usage: /clearsleepplayer
-    permission: NoPhantomSleep.clearsleepplayer
-    default: op
