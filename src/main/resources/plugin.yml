@@ -2,6 +2,7 @@ name: NoPhantomSleep
 version: '${version}'
 main: com.rserene.chosen.server.nophantomsleep.NoPhantomSleep
 api-version: 26.1.2
+website: https://www.RSerene.com/
 authors: [Chosen_1st]
 
 # ============================================
