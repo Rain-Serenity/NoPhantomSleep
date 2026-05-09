@@ -24,3 +24,6 @@ permissions:
   nophantomsleep.admin:
     description: 允许使用 /nps 管理命令
     default: op
+  nophantomsleep.bypasscooldown:
+    description: 使用 /nps 命令时绕过冷却时间限制
+    default: op

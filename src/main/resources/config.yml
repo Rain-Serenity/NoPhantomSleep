@@ -16,3 +16,8 @@ exclude-player-list-enabled: false
 # 玩家每次使用 /nps 后需要等待此时间才能再次使用
 # 默认: 30 分钟
 command-cooldown-minutes: 30
+
+# 可绕过冷却的权限节点
+# 拥有此权限的玩家使用 /nps 命令时不受冷却时间限制
+# 默认: nophantomsleep.bypasscooldown
+cooldown-bypass-permission: nophantomsleep.bypasscooldown

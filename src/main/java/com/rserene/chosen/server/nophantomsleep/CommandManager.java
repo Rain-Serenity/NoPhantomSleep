@@ -89,10 +89,14 @@ public class CommandManager implements CommandExecutor {
         String playerName = args[1];
 
         // 检查冷却时间（仅对玩家生效，控制台不受限制）
-        if (sender instanceof Player && plugin.isOnCooldown(((Player) sender).getUniqueId())) {
-            long remaining = plugin.getRemainingCooldownSeconds(((Player) sender).getUniqueId());
-            sender.sendMessage("§c命令冷却中，请等待 " + remaining + " 秒后再试！");
-            return true;
+        // 如果玩家拥有绕过冷却的权限，则跳过冷却检查
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            if (!p.hasPermission(plugin.getCooldownBypassPermission()) && plugin.isOnCooldown(p.getUniqueId())) {
+                long remaining = plugin.getRemainingCooldownSeconds(p.getUniqueId());
+                sender.sendMessage("§c命令冷却中，请等待 " + formatCooldownTime(remaining) + " 后再试！");
+                return true;
+            }
         }
 
         // 尝试添加玩家到排除列表
@@ -107,9 +111,12 @@ public class CommandManager implements CommandExecutor {
             sender.sendMessage("§e玩家 " + playerName + " 已在排除列表中！");
         }
 
-        // 设置冷却时间（仅对玩家生效）
+        // 设置冷却时间（仅对玩家生效，拥有绕过权限的玩家不触发冷却）
         if (sender instanceof Player) {
-            plugin.setCooldown(((Player) sender).getUniqueId());
+            Player p = (Player) sender;
+            if (!p.hasPermission(plugin.getCooldownBypassPermission())) {
+                plugin.setCooldown(p.getUniqueId());
+            }
         }
 
         return true;
@@ -134,10 +141,14 @@ public class CommandManager implements CommandExecutor {
         String playerName = args[1];
 
         // 检查冷却时间（仅对玩家生效，控制台不受限制）
-        if (sender instanceof Player && plugin.isOnCooldown(((Player) sender).getUniqueId())) {
-            long remaining = plugin.getRemainingCooldownSeconds(((Player) sender).getUniqueId());
-            sender.sendMessage("§c命令冷却中，请等待 " + remaining + " 秒后再试！");
-            return true;
+        // 如果玩家拥有绕过冷却的权限，则跳过冷却检查
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            if (!p.hasPermission(plugin.getCooldownBypassPermission()) && plugin.isOnCooldown(p.getUniqueId())) {
+                long remaining = plugin.getRemainingCooldownSeconds(p.getUniqueId());
+                sender.sendMessage("§c命令冷却中，请等待 " + formatCooldownTime(remaining) + " 后再试！");
+                return true;
+            }
         }
 
         // 尝试从排除列表移除玩家
@@ -152,9 +163,12 @@ public class CommandManager implements CommandExecutor {
             sender.sendMessage("§e玩家 " + playerName + " 不在排除列表中！");
         }
 
-        // 设置冷却时间（仅对玩家生效）
+        // 设置冷却时间（仅对玩家生效，拥有绕过权限的玩家不触发冷却）
         if (sender instanceof Player) {
-            plugin.setCooldown(((Player) sender).getUniqueId());
+            Player p = (Player) sender;
+            if (!p.hasPermission(plugin.getCooldownBypassPermission())) {
+                plugin.setCooldown(p.getUniqueId());
+            }
         }
 
         return true;
@@ -190,5 +204,26 @@ public class CommandManager implements CommandExecutor {
         sender.sendMessage("§e/nps add <玩家名> §7- 将玩家添加到排除列表");
         sender.sendMessage("§e/nps remove <玩家名> §7- 将玩家从排除列表移除");
         sender.sendMessage("§e/nps reload §7- 重新加载配置文件");
+    }
+
+    /**
+     * 将秒数格式化为 "X分钟Y秒" 的可读字符串
+     *
+     * 例如：
+     *   65 秒  -> "1分钟5秒"
+     *   30 秒  -> "30秒"
+     *   120 秒 -> "2分钟0秒"
+     *
+     * @param totalSeconds 总秒数
+     * @return 格式化后的时间字符串
+     */
+    private String formatCooldownTime(long totalSeconds) {
+        long minutes = totalSeconds / 60;
+        long seconds = totalSeconds % 60;
+        if (minutes > 0) {
+            return minutes + "分钟" + seconds + "秒";
+        } else {
+            return seconds + "秒";
+        }
     }
 }

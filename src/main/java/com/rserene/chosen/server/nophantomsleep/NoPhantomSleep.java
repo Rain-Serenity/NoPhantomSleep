@@ -75,20 +75,16 @@ public class NoPhantomSleep extends JavaPlugin {
         // 获取插件数据文件夹下的 player.yml 文件对象
         playerFile = new File(getDataFolder(), "player.yml");
 
-        // 如果文件不存在，创建空的数据文件夹并生成默认的 player.yml
+        // 如果文件不存在，手动创建空的 player.yml 文件
+        // 注意：不使用 saveResource()，因为 player.yml 是运行时数据文件，不是 jar 内的模板资源
         if (!playerFile.exists()) {
-            // 确保插件数据文件夹存在
-            saveResource("player.yml", false);
-            // 如果 saveResource 没成功（resources 里没有 player.yml），则手动创建
-            if (!playerFile.exists()) {
-                try {
-                    // 创建插件数据文件夹（如果不存在）
-                    getDataFolder().mkdirs();
-                    // 创建空的 player.yml 文件
-                    playerFile.createNewFile();
-                } catch (IOException e) {
-                    getLogger().warning("无法创建 player.yml 文件: " + e.getMessage());
-                }
+            try {
+                // 创建插件数据文件夹（如果不存在）
+                getDataFolder().mkdirs();
+                // 创建空的 player.yml 文件
+                playerFile.createNewFile();
+            } catch (IOException e) {
+                getLogger().warning("无法创建 player.yml 文件: " + e.getMessage());
             }
         }
 
@@ -219,6 +215,18 @@ public class NoPhantomSleep extends JavaPlugin {
      */
     public int getCommandCooldownMinutes() {
         return Math.max(0, getConfig().getInt("command-cooldown-minutes", 30));
+    }
+
+    /**
+     * 获取可绕过冷却的权限节点名称
+     *
+     * 读取 config.yml 中的 cooldown-bypass-permission 字段。
+     * 拥有此权限的玩家使用 /nps 命令时不受冷却时间限制。
+     *
+     * @return 权限节点名称字符串
+     */
+    public String getCooldownBypassPermission() {
+        return getConfig().getString("cooldown-bypass-permission", "nophantomsleep.bypasscooldown");
     }
 
     // ==================== 冷却时间管理 ====================
