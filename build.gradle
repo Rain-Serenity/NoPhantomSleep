@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.rserene.chosen.server'
-version = '1.0-Beta3'
+version = '1.0'
 
 repositories {
     mavenCentral()
