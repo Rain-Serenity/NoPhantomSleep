@@ -48,9 +48,11 @@ public class NoPhantomSleep extends JavaPlugin {
         // 将 BedEnterListener 注册到服务器事件总线，传入当前插件实例以便读取配置
         getServer().getPluginManager().registerEvents(new BedEnterListener(this), this);
 
-        // ----- 第四步：注册命令执行器 -----
+        // ----- 第四步：注册命令执行器和补全器 -----
         // 将 /nps 命令绑定到 CommandManager 进行处理
         Objects.requireNonNull(getCommand("nps")).setExecutor(new CommandManager(this));
+        // 将 /nps 命令绑定到 CommandTabCompleter 进行自动补全
+        getCommand("nps").setTabCompleter(new CommandTabCompleter(this));
 
         // ----- 第五步：打印启动信息 -----
         getLogger().info("NoPhantomSleep 插件已启用！");
