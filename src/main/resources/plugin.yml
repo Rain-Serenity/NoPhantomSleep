@@ -2,6 +2,7 @@ name: NoPhantomSleep
 version: '${version}'
 main: com.rserene.chosen.server.nophantomsleep.NoPhantomSleep
 api-version: 26.1.2
+folia-supported: true
 authors: [Chosen_1st]
 website: https://www.RSerene.com/
 
